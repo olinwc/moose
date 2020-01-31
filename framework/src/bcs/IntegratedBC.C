@@ -88,8 +88,11 @@ IntegratedBC::computeResidual()
   prepareVectorTag(_assembly, _var.number());
 
   for (_qp = 0; _qp < _qrule->n_points(); _qp++)
+  {
+    Real jxw_coord = _JxW[_qp] * _coord[_qp];
     for (_i = 0; _i < _test.size(); _i++)
-      _local_re(_i) += _JxW[_qp] * _coord[_qp] * computeQpResidual();
+      _local_re(_i) += jxw_coord * computeQpResidual();
+  }
 
   accumulateTaggedLocalResidual();
 
